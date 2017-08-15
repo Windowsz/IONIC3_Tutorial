@@ -1,0 +1,80 @@
+<!--
+  Generated template for the FirebaseTestingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>firebase_testing</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <!-- <ion-item>
+      <ion-label floating>Add</ion-label>
+      <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+      <ion-label floating>Update</ion-label>
+      <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+      <ion-label floating>Delete</ion-label>
+      <ion-input type="text"></ion-input>
+  </ion-item> -->
+
+<ion-content>
+  <ion-row>
+    <ion-col col-9>
+      <ion-item>
+        <ion-input type="text" [(ngModel)]="nameIn" placeholder="Name"></ion-input>
+        <ion-input type="text" [(ngModel)]="email" placeholder="Email"></ion-input>
+        <ion-input type="text" [(ngModel)]="tel" placeholder="Telephone"></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col>
+      <button ion-button full class="btnADD" (click)="addItem()">Add!</button>
+    </ion-col>
+    <ion-col>
+      <button ion-button full (click)="updateItem()">update!</button>
+    </ion-col>
+  </ion-row>
+
+  <ion-list>
+  <!-- <ul *ngFor="let item of Items | async">
+    <li>
+       {{ item.name }}
+    </li>
+      <li>
+        <button ion-button round (click)="selectItem(item.$key, item.name)">EDIT</button>
+      </li>
+      <li>
+        <button ion-button round color="danger" (click)="removeItem(item.$key)">DELETE</button>
+      </li>
+  </ul> -->
+<ion-grid *ngFor="let item of Items | async">
+    <ion-row>
+        <ion-col col-12 class="ITEM">{{ item.name }}</ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col col-6>
+          <button ion-button round full (click)="selectItem(item.$key, item.name)">EDIT</button>
+        </ion-col>
+        <ion-col col-6>
+          <button ion-button round full color="danger" (click)="removeItem(item.$key)">DELETE</button>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+	</ion-list>
+
+</ion-content>
+
+
+</ion-content>
