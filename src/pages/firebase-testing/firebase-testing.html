@@ -48,17 +48,6 @@
   </ion-row>
 
   <ion-list>
-  <!-- <ul *ngFor="let item of Items | async">
-    <li>
-       {{ item.name }}
-    </li>
-      <li>
-        <button ion-button round (click)="selectItem(item.$key, item.name)">EDIT</button>
-      </li>
-      <li>
-        <button ion-button round color="danger" (click)="removeItem(item.$key)">DELETE</button>
-      </li>
-  </ul> -->
 <ion-grid *ngFor="let item of Items | async">
     <ion-row>
         <ion-col col-12 class="ITEM">{{ item.name }}</ion-col>
@@ -73,6 +62,15 @@
     </ion-row>
 </ion-grid>
 	</ion-list>
+
+<ion-item>
+ <ion-input type="text" #nameUser placeholder="Name"></ion-input>
+        <ion-input type="text"  #emailUser placeholder="Email"></ion-input>
+        <!-- <button ion-button full class="btnADD" (click)="addUsers(nameUser.value, emailUser.value)">Add!Users</button> -->
+</ion-item>
+<button ion-button full class="btnADD" (click)="addUsers(nameUser.value, emailUser.value)">Add!Users</button>
+
+
 
 </ion-content>
 

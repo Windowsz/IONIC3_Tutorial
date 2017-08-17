@@ -23,13 +23,18 @@ export class FirebaseTestingPage {
     Items: FirebaseListObservable<any>;
     // Items: FirebaseObjectObservable<any>;
     nameIn = '';
-    name = '';
+    // nameUser = '';
+    // emailUser = '';
     email = '';
     tel = '';
     key = '';
 
-  constructor(public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams, public firebaseProvider: FirebaseProvider
-  , db: AngularFireDatabase) {
+  constructor(
+    public alertCtrl: AlertController,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public firebaseProvider: FirebaseProvider,
+    public db: AngularFireDatabase) {
 
     this.Items = db.list('/items');
     // Items.push({ name: newName });
@@ -74,6 +79,11 @@ export class FirebaseTestingPage {
 
   removeItem(key) {
     this.firebaseProvider.removeItem(key);
+  }
+
+
+  addUsers(name : string, email : string){
+    this.firebaseProvider.testAddUsers(name, email);
   }
 
 }

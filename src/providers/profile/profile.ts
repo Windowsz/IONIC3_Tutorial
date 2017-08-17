@@ -16,6 +16,7 @@ export class ProfileProvider {
   }
 
   profile: any;
+  statusLog: any;
    addProfile(db) {
         this.profile = db;
         return console.log("Service Provider" + this.profile);

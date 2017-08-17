@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
-// import { Component, trigger, state, style, transition, animate, keyframes } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform, MenuController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-// import { Platform } from 'ionic-angular';
-import { Facebook } from '@ionic-native/facebook'
+import { Facebook } from '@ionic-native/facebook';
+
 import { ProfileProvider } from './../../providers/profile/profile';
+import { FirebaseProvider } from '../../providers/firebase/firebase';
+
 import{ HomePage } from '../home/home';
+import { RegistorPage } from '../registor/registor';
+
 /**
  * Generated class for the LoginPage page.
  *
@@ -32,7 +35,9 @@ export class LoginPage {
     private platform: Platform,
     public navCtrl: NavController,
     public navParams: NavParams,
-    private afAuth: AngularFireAuth) {
+    private afAuth: AngularFireAuth,
+    private firebase : FirebaseProvider
+  ) {
 
       this.mN.enable(false, 'myMenu');
 
@@ -66,8 +71,20 @@ export class LoginPage {
           this.pf.addProfile(res);
           console.log("-----------------------");
           console.log(this.pf.profile);
+          this.firebase.checkUser(this.pf.profile.user.email);
+
+
           this.navCtrl.setRoot(HomePage);
           this.mN.enable(true, 'myMenu');
+
+          // if(this.pf.statusLog){
+          //   this.navCtrl.setRoot(HomePage);
+          //   this.mN.enable(true, 'myMenu');
+          // }else{
+          //   this.navCtrl.setRoot(RegistorPage);
+          // }
+          // this.navCtrl.setRoot(HomePage);
+          // this.mN.enable(true, 'myMenu');
         });
     }
   }
