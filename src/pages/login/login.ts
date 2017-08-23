@@ -3,12 +3,16 @@ import { IonicPage, NavController, NavParams, Platform, MenuController } from 'i
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Facebook } from '@ionic-native/facebook';
+import { AlertController } from 'ionic-angular';
+
 
 import { ProfileProvider } from './../../providers/profile/profile';
 import { FirebaseProvider } from '../../providers/firebase/firebase';
 
+// import { h } from '../home/home';
 import{ HomePage } from '../home/home';
 import { RegistorPage } from '../registor/registor';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the LoginPage page.
@@ -27,16 +31,20 @@ export class LoginPage {
 
   // logoState: any = "in";
   displayName;
-
+  name;
+  temp:any
+  status;
   constructor(
     private mN: MenuController,
     public pf: ProfileProvider,
+    public alertCtrl: AlertController,
     private fb: Facebook,
     private platform: Platform,
     public navCtrl: NavController,
     public navParams: NavParams,
     private afAuth: AngularFireAuth,
-    private firebase : FirebaseProvider
+    private firebase : FirebaseProvider,
+    public storage: Storage
   ) {
 
       this.mN.enable(false, 'myMenu');
@@ -67,24 +75,33 @@ export class LoginPage {
       return this.afAuth.auth
         .signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then(res => {
-          console.log(res)
+          console.log(res);
           this.pf.addProfile(res);
-          console.log("-----------------------");
+          // console.log("-----------------------");
           console.log(this.pf.profile);
-          this.firebase.checkUser(this.pf.profile.user.email);
-
-
-          this.navCtrl.setRoot(HomePage);
-          this.mN.enable(true, 'myMenu');
-
-          // if(this.pf.statusLog){
-          //   this.navCtrl.setRoot(HomePage);
-          //   this.mN.enable(true, 'myMenu');
-          // }else{
-          //   this.navCtrl.setRoot(RegistorPage);
-          // }
-          // this.navCtrl.setRoot(HomePage);
+          // console.log(this.pf.profile.user.email);
+          this.firebase.emailRef = this.pf.profile.user.email;
+          this.firebase.profileFacebook = res.additionalUserInfo.profile;
+          // this.navCtrl.setRoot(RegistorPage);
           // this.mN.enable(true, 'myMenu');
+          // console.log('testtttt' + this.pf.ProfileUser.status);
+          this.firebase.checkUser();
+          if(this.pf.statusLog){
+            // console.log('testtttt' + this.pf.ProfileUser.status);
+            this.status = "true";
+            this.storage.set('status_login', true);
+            this.mN.enable(true, 'myMenu');
+            this.navCtrl.setRoot(HomePage);
+
+          }else{
+          this.status = "false";
+          let alert = this.alertCtrl.create({
+            title: 'ERROR!!',
+            subTitle: 'กรุณาล็อคอินเข้าระบบอีกครั้ง',
+            buttons: ['OK']
+          });
+          alert.present();
+          }
         });
     }
   }

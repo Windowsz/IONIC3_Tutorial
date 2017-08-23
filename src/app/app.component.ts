@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -10,6 +10,8 @@ import { FirebaseTestingPage } from '../pages/firebase-testing/firebase-testing'
 // import firebase from 'firebase';
 import { ProfileProvider } from '../providers/profile/profile';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { Storage } from '@ionic/storage';
+
 
 
 @Component({
@@ -19,20 +21,34 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   // Set Root Pages
   // rootPage: any = HomePage;
-  rootPage: any = LoginPage;
-  // rootPage: any = null;
-
+  // rootPage: any = LoginPage;
+  rootPage: any ;
+  status_CK: boolean;
   pages: Array<{title: string, component: any}>;
 
   constructor(
+    private mN: MenuController,
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public pf: ProfileProvider,
     // private fb: Facebook,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
+    public storage: Storage
 
   ) {
+
+    storage.get('status_login').then((val) => {
+      console.log('status_login : ', val);
+      // this.rootPage =
+      this.status_CK = val;
+      if(this.status_CK){
+        this.rootPage = HomePage;
+      }else{
+        this.rootPage = LoginPage;
+      }
+    });
+
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -46,20 +62,6 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-
-
-    //   switch (condition) {
-    //       case xxx:
-    //         this.rootPage = LoginPage;
-    //         break;
-    //       case yyy:
-    //         this.rootPage = HomePage;
-    //         break;
-    //       // ....
-    // };
-
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
@@ -73,8 +75,13 @@ export class MyApp {
   }
 
   signOut() {
+  //  const pages:any = 'LoginPage';
+    this.storage.set('status_login', false);
+    console.log("LogOut Facebook");
     this.pf.profile = '';
     this.afAuth.auth.signOut();
+    this.mN.enable(false, 'myMenu');
+    this.nav.setRoot(LoginPage);
   }
 
 }

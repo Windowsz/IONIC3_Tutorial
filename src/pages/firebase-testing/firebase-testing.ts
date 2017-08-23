@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import { FirebaseProvider } from './../../providers/firebase/firebase';
 import { AngularFireDatabase, FirebaseListObservable  } from 'angularfire2/database';
 import { AlertController } from 'ionic-angular';
@@ -29,18 +29,22 @@ export class FirebaseTestingPage {
     tel = '';
     key = '';
 
+
+
   constructor(
     public alertCtrl: AlertController,
     public navCtrl: NavController,
     public navParams: NavParams,
     public firebaseProvider: FirebaseProvider,
-    public db: AngularFireDatabase) {
+    public db: AngularFireDatabase,
+    private mN: MenuController
+  ) {
 
     this.Items = db.list('/items');
     // Items.push({ name: newName });
     // this.Items = db.object('/item');
     console.log(this.Items);
-
+    mN.enable(true, 'myMenu');
   }
 
   ionViewDidLoad() {
@@ -48,7 +52,11 @@ export class FirebaseTestingPage {
   }
 
   addItem() {
-    this.firebaseProvider.addItem(this.nameIn);
+    this.firebaseProvider.addItem(
+      this.nameIn,
+      this.email,
+      this.tel
+    );
   }
 
   selectItem(key: string, name: string){
@@ -70,9 +78,18 @@ export class FirebaseTestingPage {
         } else{
     console.log("Key : "+ this.key);
     console.log("Name : "+ this.nameIn);
-    this.firebaseProvider.updateItem(this.key, this.nameIn);
+    console.log("Email : "+ this.email);
+    console.log("Telephone : "+ this.tel);
+    this.firebaseProvider.updateItem(
+      this.key,
+      this.nameIn,
+      this.email,
+      this.tel
+    );
     this.key = '';
     this.nameIn = '';
+    this.email = '';
+    this.tel = '';
         }
 
   }
@@ -83,7 +100,7 @@ export class FirebaseTestingPage {
 
 
   addUsers(name : string, email : string){
-    this.firebaseProvider.testAddUsers(name, email);
+    this.firebaseProvider.testAddUsers(email, name);
   }
 
 }

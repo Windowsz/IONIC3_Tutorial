@@ -1,17 +1,23 @@
 <ion-menu id="myMenu" [content]="content">
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar id="headerMenu">
       <ion-title>Menu</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
+  <ion-content id="contentMenu">
+    <ion-item class="profileMenu">
+        <!-- <ion-avatar item-start>
+            <img src="../../src/assets/img/logo_login.svg">
+          </ion-avatar> -->
+          <img id="photoProfile" src="../assets/img/logo_login.svg">
+    </ion-item>
     <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)" class="bkButton">
+       <span class="text"> {{p.title}} </span>
       </button>
-      <button  menuClose ion-item (click)="signOut()">
-        LOGOUT
+      <button  menuClose ion-item (click)="signOut()" class="bkButton">
+          <span class="text"> LOGOUT </span>
       </button>
     </ion-list>
   </ion-content>

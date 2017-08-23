@@ -1,41 +1,94 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import {Observable} from 'rxjs/Observable';
 import { AngularFireDatabase, FirebaseListObservable  } from 'angularfire2/database';
 import { ProfileProvider } from '../profile/profile';
-/*
-  Generated class for the FirebaseProvider provider.
+import { Subject } from 'rxjs/Subject';
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on prconst itemObservable = db.object('/item');
-itemObservable.set({ name: 'new name!'});oviders and Angular DI.
-*/
 @Injectable()
 export class FirebaseProvider {
-
+  data :any;
   key = '';
   user = '';
-  CKuser: FirebaseListObservable<any>;
+  emailUser: string;
+  emailRef;
+  emailSubject: Subject<any>;
+  CKuser: FirebaseListObservable<any[]>;
+  profileFacebook;
+
   constructor(
     public http: Http,
     public db: AngularFireDatabase,
-    public pf: ProfileProvider
+    public pf: ProfileProvider,
   ) {
-    console.log('Hello FirebaseProvider Provider');
+    // console.log('Hello FirebaseProvider Provider');
+
+    this.emailSubject = new Subject();
+    this.data =  this.db.list('/users', {
+      query: {
+        orderByChild: 'email',
+        equalTo: this.emailSubject
+      }
+    }).subscribe(db =>{
+
+      console.log(db.length);
+      if(db.length == 0){
+
+      this.saveUsersFacrbook(
+        this.profileFacebook.email,
+        this.profileFacebook.first_name,
+        this.profileFacebook.last_name,
+        this.profileFacebook.picture
+      );
+
+    }else{
+      let a =db[0].email;
+      this.emailUser = a;
+      if(this.emailUser != this.emailRef || this.emailUser == null || this.emailUser == undefined){
+        this.pf.statusLog = false;
+        // this.pf.ProfileUser.status = false;
+        console.log(this.pf.statusLog + " : this.pf.statusLog");
+        console.log(this.emailRef + " : User not found");
+        this.saveUsersFacrbook(
+          this.profileFacebook.email,
+          this.profileFacebook.first_name,
+          this.profileFacebook.last_name,
+          this.profileFacebook.picture.data.url
+        );
+
+      }else{
+        this.pf.statusLog = true;
+        console.log(this.pf.statusLog + " : this.pf.statusLog");
+        console.log(this.emailUser + " : Suscess");
+        // return this.pf.statusLog = true;
+      }
+
+    }
+    });
   }
 
    getShoppingItems() {
     return this.db.list('/Items/');
   }
 
-  addItem(name) {
+  addItem(name, email, tel) {
         const items = this.db.list('/items');
-        items.push({ name: name });
+        items.push({
+          name: name,
+          email: email,
+          telephone: tel
+         });
     }
 
-    updateItem(key: string, name) {
+    updateItem(key: string, name, email, tel) {
         const items = this.db.list('/items');
-        items.update(key , { name: name });
+        items.update(key , {
+          name: name,
+          email: email,
+          telephone: tel
+         });
     }
 
   removeItem(key: string) {
@@ -56,6 +109,19 @@ export class FirebaseProvider {
     }
 
 
+    saveUsersFacrbook(email:any, first_name:string, last_name:string, picture:string, ){
+      const users = this.db.list('/users');
+      users.push({
+          email: email,
+          first_name: first_name,
+          last_name: last_name,
+          picture: picture
+      }).then(res=>{
+        console.log("Save Email : " + email + " success");
+      });
+    }
+
+
     testAddUsers(email : string, name : string){
       const users = this.db.list('/users');
       users.push({
@@ -64,29 +130,9 @@ export class FirebaseProvider {
       });
     }
 
-  checkUser(CKemail: any){
-    this.CKuser = this.db.list('/users', { preserveSnapshot: true });
-    // this.user = this.CKuser;
-    // user.
-    // JSON.stringify(this.CKuser);
-    this.CKuser
-  .subscribe(snapshots => {
-    snapshots.forEach(snapshot => {
-      console.log("*******TEST********");
-      console.log(snapshot.key);
-      console.log(snapshot.val());
-    });
-  });
-    console.log("CKemail : "+ CKemail);
-    console.log("CKuser : " + this.CKuser);
-    console.log(this.CKuser);
-    if(this.CKuser == CKemail){
-      this.pf.statusLog = true;
-    }else{
-      this.pf.statusLog = false;
-      console.log(CKemail + " : User not found");
-    }
 
+  checkUser( ){
+    this.emailSubject.next(this.emailRef);
+    console.log("status : " + this.pf.statusLog);
   }
-
 }
