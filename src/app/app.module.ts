@@ -9,6 +9,7 @@ import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { FirebaseTestingPage } from '../pages/firebase-testing/firebase-testing';
 import { RegistorPage } from '../pages/registor/registor';
+import { SignupPage } from '../pages/signup/signup';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -41,7 +42,8 @@ import { ProfileProvider } from '../providers/profile/profile';
     ListPage,
     FirebaseTestingPage,
     LoginPage,
-    RegistorPage
+    RegistorPage,
+    SignupPage
   ],
   imports: [
     BrowserModule,
@@ -59,7 +61,8 @@ import { ProfileProvider } from '../providers/profile/profile';
     ListPage,
     FirebaseTestingPage,
     LoginPage,
-    RegistorPage
+    RegistorPage,
+    SignupPage
   ],
   providers: [
     StatusBar,

@@ -2,71 +2,25 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase, FirebaseListObservable  } from 'angularfire2/database';
 import { ProfileProvider } from '../profile/profile';
-import { Subject } from 'rxjs/Subject';
+import { AngularFireAuth } from 'angularfire2/auth';
+
 
 @Injectable()
 export class FirebaseProvider {
-  data :any;
   key = '';
   user = '';
-  emailUser: string;
-  emailRef;
-  emailSubject: Subject<any>;
-  CKuser: FirebaseListObservable<any[]>;
-  profileFacebook;
+
 
   constructor(
     public http: Http,
     public db: AngularFireDatabase,
     public pf: ProfileProvider,
+    private af: AngularFireAuth
   ) {
-    // console.log('Hello FirebaseProvider Provider');
 
-    this.emailSubject = new Subject();
-    this.data =  this.db.list('/users', {
-      query: {
-        orderByChild: 'email',
-        equalTo: this.emailSubject
-      }
-    }).subscribe(db =>{
-
-      console.log(db.length);
-      if(db.length == 0){
-
-      this.saveUsersFacrbook(
-        this.profileFacebook.email,
-        this.profileFacebook.first_name,
-        this.profileFacebook.last_name,
-        this.profileFacebook.picture
-      );
-
-    }else{
-      let a =db[0].email;
-      this.emailUser = a;
-      if(this.emailUser != this.emailRef || this.emailUser == null || this.emailUser == undefined){
-        this.pf.statusLog = false;
-        // this.pf.ProfileUser.status = false;
-        console.log(this.pf.statusLog + " : this.pf.statusLog");
-        console.log(this.emailRef + " : User not found");
-        this.saveUsersFacrbook(
-          this.profileFacebook.email,
-          this.profileFacebook.first_name,
-          this.profileFacebook.last_name,
-          this.profileFacebook.picture.data.url
-        );
-
-      }else{
-        this.pf.statusLog = true;
-        console.log(this.pf.statusLog + " : this.pf.statusLog");
-        console.log(this.emailUser + " : Suscess");
-        // return this.pf.statusLog = true;
-      }
-
-    }
-    });
   }
 
    getShoppingItems() {
@@ -98,7 +52,7 @@ export class FirebaseProvider {
 
 
     saveUser(){
-      const user = this.db.list('/users');
+      const user = this.db.list('/users/facebook');
       const profile = this.pf.profile;
 
       user.push({
@@ -110,12 +64,23 @@ export class FirebaseProvider {
 
 
     saveUsersFacrbook(email:any, first_name:string, last_name:string, picture:string, ){
-      const users = this.db.list('/users');
+      const users = this.db.list('/users/facebook');
       users.push({
           email: email,
           first_name: first_name,
           last_name: last_name,
           picture: picture
+      }).then(res=>{
+        console.log("Save Facebook : " + email + " success");
+      });
+    }
+
+    saveUsersEmail(email: any, first_name:string, last_name:string ){
+      const users = this.db.list('/users/email');
+      users.push({
+          email: email,
+          first_name: first_name,
+          last_name: last_name,
       }).then(res=>{
         console.log("Save Email : " + email + " success");
       });
@@ -130,9 +95,37 @@ export class FirebaseProvider {
       });
     }
 
-
-  checkUser( ){
-    this.emailSubject.next(this.emailRef);
-    console.log("status : " + this.pf.statusLog);
+  loginWithEmail(credentials) {
+    return Observable.create(observer => {
+      this.af.auth.signInWithEmailAndPassword(credentials.email, credentials.password
+      ).then((authData) => {
+        console.log(authData);
+        observer.next(authData);
+      }).catch((error) => {
+        observer.error(error);
+      });
+    });
   }
+
+  logout() {
+    this.af.auth.signOut();
+  }
+
+  registerUser(credentials: any) {
+    return Observable.create(observer => {
+      this.af.auth.createUserWithEmailAndPassword(credentials.email, credentials.password).then(authData => {
+        //this.af.auth.currentUser.updateProfile({displayName: credentials.displayName, photoURL: credentials.photoUrl}); //set name and photo
+        observer.next(authData);
+      }).catch(error => {
+        console.log(error);
+        observer.error(error);
+      });
+    });
+  }
+
+  get currentUser():string{
+    return this.af.auth.currentUser?this.af.auth.currentUser.email:null;
+  }
+
+
 }

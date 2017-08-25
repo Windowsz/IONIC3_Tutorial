@@ -14,16 +14,29 @@
 
 
 <ion-content padding>
-
+<ion-row>
   <ion-item>
-    <ion-label color="primary" floating>First Name</ion-label>
-    <ion-input type="text" [(ngModel)]="firstName"></ion-input>
+    <ion-label color="primary" floating>Email : </ion-label>
+    <ion-input type="email" name="email" #email></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label color="primary" floating>Password : </ion-label>
+    <ion-input type="password" name="password" #password></ion-input>
   </ion-item>
   <ion-item>
     <ion-label color="primary" floating>First Name</ion-label>
-    <ion-input type="text" [(ngModel)]="lastName"></ion-input>
+    <ion-input type="text" name="fistName" #firstName></ion-input>
   </ion-item>
-
-
-
+  <ion-item>
+    <ion-label color="primary" floating>Last Name</ion-label>
+    <ion-input type="text" name="lastName" #lastName></ion-input>
+  </ion-item>
+</ion-row>
+<ion-row>
+    <ion-col col-6>
+      <!-- <button (click)="registor(email.value, password.value, firstName.value, lastName.value)"></button> -->
+      <button ion-button (click)="registor(email.value, password.value, firstName.value, lastName.value)" full type="submit" >Submit</button>
+    </ion-col>
+    <!-- <ion-col col-6></ion-col> -->
+</ion-row>
 </ion-content>

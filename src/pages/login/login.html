@@ -8,17 +8,17 @@
     <ion-col></ion-col>
   </ion-row>
   <div class="login-box">
-    <form  #registerForm="ngForm">
+    <form >
       <ion-row>
         <ion-col>
           <ion-list inset>
 
             <ion-item>
-              <ion-input type="text" placeholder="Email" name="email"  required></ion-input>
+              <ion-input type="text" placeholder="Email" name="email" #email></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-input type="password" placeholder="Password" name="password"  required></ion-input>
+              <ion-input type="password" placeholder="Password" name="password" #password></ion-input>
             </ion-item>
 
           </ion-list>
@@ -27,11 +27,11 @@
 
       <ion-row>
         <ion-col class="signup-col">
-          <button ion-button class="submit-btn" full type="submit" (click)="signInWithFacebook()">Login</button>
-          <button ion-button class="facebook-btn" (click)="signInWithFacebook()" full type="submit" [disabled]="!registerForm.form.valid">
+          <button ion-button class="submit-btn" full type="submit" (click)="login(email.value, password.value)">Login</button>
+          <button ion-button class="facebook-btn" (click)="signInWithFacebook()" full type="submit" >
               <ion-icon name="logo-facebook"></ion-icon>
               &nbsp;Connect with &nbsp;<span>Facebook</span></button>
-          <button ion-button class="register-btn" block clear>Create New Account</button>
+          <button ion-button class="register-btn" block clear [navPush]="pushPage">Create New Account</button>
         </ion-col>
       </ion-row>
 
