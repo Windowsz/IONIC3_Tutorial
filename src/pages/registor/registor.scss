@@ -1,3 +1,20 @@
 page-registor {
 
+
+  .ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid #42A948; /* green */
+  }
+
+  // .ng-invalid:not(ion-item)  {
+  //   border-left: 5px solid #a94442; /* red */
+  // }
+
+  // input.ng-dirty.ng-invalid {
+  //   color: red
+  // }
+
+  .err{
+    color: red;
+  }
+
 }

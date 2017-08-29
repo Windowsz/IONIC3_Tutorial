@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FirebaseProvider } from './../../providers/firebase/firebase';
 import { AngularFireDatabase, FirebaseListObservable  } from 'angularfire2/database';
-
+import { NgModel } from '@angular/forms';
 
 // import { FirebaseProvider } from '../../providers/firebase/firebase';
 
@@ -21,9 +21,10 @@ import { AngularFireDatabase, FirebaseListObservable  } from 'angularfire2/datab
 })
 export class RegistorPage {
 
-  // firstName = '';
-  // lastName = '';
-
+  firstName = '';
+  lastName = '';
+  email = '';
+  password = '';
 
 
 
@@ -39,11 +40,11 @@ export class RegistorPage {
     console.log('ionViewDidLoad RegistorPage');
   }
 
-  registor(e,p,f,l){
-    var credentials = ({email: e, password: p});
+  registor(){
+    var credentials = ({email: this.email, password: this.password});
     this.firebase.registerUser(credentials).subscribe(data=>{
       console.log(data);
-      this.firebase.saveUsersEmail(e,f,l);
+      this.firebase.saveUsersEmail( this.email, this.firstName, this.lastName);
     }, error=>{
       console.log(error);
     });

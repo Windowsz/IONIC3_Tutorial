@@ -5,6 +5,7 @@ import * as firebase from 'firebase/app';
 import { Facebook } from '@ionic-native/facebook';
 import { AlertController } from 'ionic-angular';
 import { Subject } from 'rxjs/Subject';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 // import { NgForm } from '@angular/forms';
 import { AngularFireDatabase, FirebaseListObservable  } from 'angularfire2/database';
 import { ProfileProvider } from './../../providers/profile/profile';
