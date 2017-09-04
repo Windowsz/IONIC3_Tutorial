@@ -171,6 +171,12 @@ export class LoginPage {
       console.log('error.code : ' + error.code)
       if (error.code == 'auth/user-not-found' || error.code =='auth/invalid-email')
       {
+        let alert = this.alertCtrl.create({
+          title: 'ERROR!!',
+          subTitle: 'Username หรือ Password ผิดพลาด',
+          buttons: ['OK']
+        });
+        alert.present();
         // alert('User not found');
         console.log('User not found OR invalid-email');
       }

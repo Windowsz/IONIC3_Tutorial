@@ -18,14 +18,36 @@
 <ion-row>
   <ion-item>
     <ion-label color="primary" floating>Email : </ion-label>
-    <ion-input type="email" name="email" ></ion-input>
+    <ion-input type="email" name="email" [(ngModel)]="email"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="usersCK">
+    11111111111111111111111
   </ion-item>
 
   <ion-item>
     <ion-label color="primary" floating>Password : </ion-label>
-    <ion-input type="password" name="password" ></ion-input>
+    <ion-input type="password" name="pass" required minlength="8" [(ngModel)]="password" #pass="ngModel"></ion-input>
   </ion-item>
-
+  <ion-item *ngIf="pass.invalid && (pass.dirty || pass.touched)">
+      <!-- <ion-item *ngIf="pass.errors.required" class="err"> -->
+         <div *ngIf="pass.errors.required" class="err"> Password is required.</div>
+      <!-- </ion-item> -->
+      <!-- <ion-item *ngIf="pass.errors.minlength" class="err"> -->
+        <div *ngIf="pass.errors.minlength" class="err">  Password must 8 characters. {{pass.errors.minlength.requiredLength  - pass.errors.minlength.actualLength}}</div>
+      <!-- </ion-item> -->
+  </ion-item>
+  <ion-item>
+    <ion-label color="primary" floating>Password Confirm : </ion-label>
+    <ion-input type="password" name="pass_Confirm" required minlength="8" [(ngModel)]="passwordConfirm" #passConfirm="ngModel"></ion-input>
+  </ion-item>
+  <ion-item *ngIf="passConfirm.invalid && (passConfirm.dirty || passConfirm.touched)">
+      <!-- <ion-item *ngIf="pass.errors.required" class="err"> -->
+         <div *ngIf="passConfirm.errors.required" class="err"> Password is required.</div>
+      <!-- </ion-item> -->
+      <!-- <ion-item *ngIf="pass.errors.minlength" class="err"> -->
+        <div *ngIf="passConfirm.errors.minlength" class="err">  Password must 8 characters. {{passConfirm.errors.minlength.requiredLength  - passConfirm.errors.minlength.actualLength}}</div>
+      <!-- </ion-item> -->
+  </ion-item>
   <ion-item>
       <ion-label color="primary" floating>First Name</ion-label>
       <ion-input type="text" name="firstName" required [(ngModel)]="firstName" #first="ngModel"></ion-input>
