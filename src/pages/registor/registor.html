@@ -14,14 +14,19 @@
 
 
 <ion-content padding>
-  <!-- <form  #registor="ngForm" novalidate> -->
 <ion-row>
   <ion-item>
     <ion-label color="primary" floating>Email : </ion-label>
-    <ion-input type="email" name="email" [(ngModel)]="email"></ion-input>
+    <ion-input type="email" name="email" [(ngModel)]="email" #e="ngModel"
+     required email></ion-input>
   </ion-item>
-  <ion-item *ngIf="usersCK">
-    11111111111111111111111
+  <ion-item *ngIf="e.invalid && (e.dirty || e.touched)">
+        <div  *ngIf="e.errors && e.errors.required" class="err">
+        Email is required
+        </div>
+        <div  *ngIf="(e.errors && e.errors.email) != e.errors.required" class="err">
+        Email is invalid
+        </div>
   </ion-item>
 
   <ion-item>
@@ -29,24 +34,16 @@
     <ion-input type="password" name="pass" required minlength="8" [(ngModel)]="password" #pass="ngModel"></ion-input>
   </ion-item>
   <ion-item *ngIf="pass.invalid && (pass.dirty || pass.touched)">
-      <!-- <ion-item *ngIf="pass.errors.required" class="err"> -->
          <div *ngIf="pass.errors.required" class="err"> Password is required.</div>
-      <!-- </ion-item> -->
-      <!-- <ion-item *ngIf="pass.errors.minlength" class="err"> -->
         <div *ngIf="pass.errors.minlength" class="err">  Password must 8 characters. {{pass.errors.minlength.requiredLength  - pass.errors.minlength.actualLength}}</div>
-      <!-- </ion-item> -->
   </ion-item>
   <ion-item>
     <ion-label color="primary" floating>Password Confirm : </ion-label>
     <ion-input type="password" name="pass_Confirm" required minlength="8" [(ngModel)]="passwordConfirm" #passConfirm="ngModel"></ion-input>
   </ion-item>
   <ion-item *ngIf="passConfirm.invalid && (passConfirm.dirty || passConfirm.touched)">
-      <!-- <ion-item *ngIf="pass.errors.required" class="err"> -->
          <div *ngIf="passConfirm.errors.required" class="err"> Password is required.</div>
-      <!-- </ion-item> -->
-      <!-- <ion-item *ngIf="pass.errors.minlength" class="err"> -->
         <div *ngIf="passConfirm.errors.minlength" class="err">  Password must 8 characters. {{passConfirm.errors.minlength.requiredLength  - passConfirm.errors.minlength.actualLength}}</div>
-      <!-- </ion-item> -->
   </ion-item>
   <ion-item>
       <ion-label color="primary" floating>First Name</ion-label>
@@ -67,12 +64,10 @@
 </ion-row>
 <ion-row>
     <ion-col col-6>
-      <!-- <button (click)="registor(email.value, password.value, firstName.value, lastName.value)"></button> -->
       <button ion-button color="green2" (click)="registor()" full type="submit" >Submit</button>
     </ion-col>
     <ion-col col-6>
         <button ion-button color="danger" full navPop>Cancel</button>
     </ion-col>
 </ion-row>
-  <!-- </form> -->
 </ion-content>

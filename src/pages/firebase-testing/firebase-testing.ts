@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angul
 import { FirebaseProvider } from './../../providers/firebase/firebase';
 import { AngularFireDatabase, FirebaseListObservable  } from 'angularfire2/database';
 import { AlertController } from 'ionic-angular';
-
+import * as firebase from 'firebase/app';
 
 /**
  * Generated class for the FirebaseTestingPage page.

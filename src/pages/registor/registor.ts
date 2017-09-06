@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { FirebaseProvider } from './../../providers/firebase/firebase';
 import { AngularFireDatabase, FirebaseListObservable  } from 'angularfire2/database';
 import { NgModel } from '@angular/forms';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, PatternValidator  } from '@angular/forms';
 
 
 // import { FirebaseProvider } from '../../providers/firebase/firebase';
