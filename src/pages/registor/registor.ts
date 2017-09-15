@@ -4,7 +4,7 @@ import { FirebaseProvider } from './../../providers/firebase/firebase';
 import { AngularFireDatabase, FirebaseListObservable  } from 'angularfire2/database';
 import { NgModel } from '@angular/forms';
 import { FormGroup, FormControl, Validators, PatternValidator  } from '@angular/forms';
-
+import { LoginPage } from '../../pages/login/login';
 
 // import { FirebaseProvider } from '../../providers/firebase/firebase';
 
@@ -49,10 +49,12 @@ export class RegistorPage {
 
 
     if(this.passwordConfirm == this.password){
+    // Registor Suscess
     var credentials = ({email: this.email, password: this.password});
     this.firebase.registerUser(credentials).subscribe(data=>{
       console.log(data);
       this.firebase.saveUsersEmail( this.email, this.firstName, this.lastName);
+      this.navCtrl.setRoot(LoginPage);
     }, error=>{
       console.log(error);
       if(error.code == "auth/invalid-email"){

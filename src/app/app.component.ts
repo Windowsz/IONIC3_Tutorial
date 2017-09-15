@@ -6,6 +6,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
+import { BarcodePage } from '../pages/barcode/barcode';
+
 import { FirebaseTestingPage } from '../pages/firebase-testing/firebase-testing';
 // import firebase from 'firebase';
 import { ProfileProvider } from '../providers/profile/profile';
@@ -55,7 +57,8 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'List', component: ListPage },
-      { title: 'Firebase', component: FirebaseTestingPage }
+      { title: 'Firebase', component: FirebaseTestingPage },
+      { title: 'Barcode', component: BarcodePage }
     ];
 
   }

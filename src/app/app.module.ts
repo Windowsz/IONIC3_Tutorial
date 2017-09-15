@@ -4,8 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { FormsModule } from '@angular/forms';
 
-
-
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
@@ -16,8 +14,6 @@ import { SignupPage } from '../pages/signup/signup';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-// import { FirebaseProvider } from '../providers/firebase/firebase';
-
 
 import { HttpModule } from '@angular/http';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -26,6 +22,8 @@ import { FirebaseProvider } from './../providers/firebase/firebase';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { Facebook } from '@ionic-native/facebook';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+
 import { ProfileProvider } from '../providers/profile/profile';
 
 
@@ -75,7 +73,8 @@ import { ProfileProvider } from '../providers/profile/profile';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FirebaseProvider,
     Facebook,
-    ProfileProvider
+    ProfileProvider,
+    BarcodeScanner
   ]
 })
 export class AppModule {}

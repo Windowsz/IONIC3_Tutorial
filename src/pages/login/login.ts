@@ -107,6 +107,7 @@ export class LoginPage {
         }
         else
         {
+          // Login Suscess Go to HomePages
           this.logInStatus = true;
           this.pf.statusLog = true;
           console.log(this.logInStatus);

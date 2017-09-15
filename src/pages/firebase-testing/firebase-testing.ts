@@ -4,6 +4,7 @@ import { FirebaseProvider } from './../../providers/firebase/firebase';
 import { AngularFireDatabase, FirebaseListObservable  } from 'angularfire2/database';
 import { AlertController } from 'ionic-angular';
 import * as firebase from 'firebase/app';
+// import { ImagesProvider } from '../../providers/images/images';
 
 /**
  * Generated class for the FirebaseTestingPage page.
@@ -19,16 +20,12 @@ import * as firebase from 'firebase/app';
 })
 export class FirebaseTestingPage {
 
-    // Items: FirebaseListObservable<any[]>;
     Items: FirebaseListObservable<any>;
-    // Items: FirebaseObjectObservable<any>;
     nameIn = '';
-    // nameUser = '';
-    // emailUser = '';
     email = '';
     tel = '';
     key = '';
-
+    public img : String;
 
 
   constructor(
@@ -37,7 +34,8 @@ export class FirebaseTestingPage {
     public navParams: NavParams,
     public firebaseProvider: FirebaseProvider,
     public db: AngularFireDatabase,
-    private mN: MenuController
+    private mN: MenuController,
+    // private imgs : ImagesProvider
   ) {
 
     this.Items = db.list('/items');
@@ -102,5 +100,16 @@ export class FirebaseTestingPage {
   addUsers(name : string, email : string){
     this.firebaseProvider.testAddUsers(email, name);
   }
+
+
+  select(){
+    // this.cm.selectImage().then(data=>{
+    //   this.img = data;
+    // });
+    // this.imgs.selectImage();
+    // this.img = this.imgs.cameraImage;
+    // return this.imgs.cameraImage;
+  }
+
 
 }
